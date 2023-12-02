@@ -45,7 +45,7 @@ mne library:
 
 
 데이터와 라벨의 형식:
-    I have test5~test17.#test1~4는 나의 실수로 라벨을 랜덤으로 설정해버림..
+    test5부터test17가 데이터임. test1부터4는 나의 실수로 라벨을 랜덤으로 설정해버림..(포함안함)
     the number "15" in "test5_15.BDF" means it contains 15 min of recording. (sample rate:100)
     만약 "test7.BDF"같이 시간을 안나태낸다면 10분을 의미함.
 
