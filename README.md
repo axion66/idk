@@ -25,7 +25,7 @@
 ### 모델관련:
     model conclusion: 10개의 다중분류라 찍어도 10%인데 정확도가 9.7~13%사이로 나옴 
         -> 쉬운 모델들로 훈련가능한지 연구했으나 아무것도 배우지않음
-        -> K-fold cross validation 이랑 train/val/test는 하지않음(검증할 정확도도 안나옴). train/test로만 했음.
+        -> K-fold cross validation 이랑 train/val/test는 하지않음(검증할 정확도도 안나옴;data augmentation하기전에 정확도가 5할은 나와야 무언가 배운다는거 아닐까 라는 생각을 했었습니다.). train/test로만 했음.
         심지어 rgb는 훈련조차 안됨(모델이 각기다른 input에 대해 같은 output(mean)을 출력. -> 아마 특징을 찾기 어려워서일것임.
 
     loss_fn = nn.CrossEntropyLoss(모델 마지막에 softmax를 넣지않았음)
@@ -36,7 +36,7 @@
 
 
     orig data는 Z-score normalization을 적용한 orig_data, min-max normalization을 적용한 orig_data, 그냥 orig_data중 하나. 
-
+    
     orig data:
         orig data:
             LSTM(2LSTM + FC),
