@@ -18,6 +18,7 @@
     또는(실험2):
         3개의 다른 단어들을 뇌파를 통해 구분
 ### mne library:
+    pip3 install mne
     뇌파 라이브러리로 쉽게 BDF파일을 np.array로 변환해주거나 ICA전처리를 해줌 
 
 
