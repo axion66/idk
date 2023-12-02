@@ -59,39 +59,6 @@ def dataset_maker(file_path:str,exclude:list,low_f:float,high_f:float,minute):
 
 
 
-def PSD(raw):
-    #Power Spectral Density (PSD)
-    raw = mne.io.read_raw_bdf(raw,preload=True)
-    channels_to_eliminate = raw.ch_names[-2:] # Last two channels are trash. Should be discarded.
-    raw = raw.copy().pick_types(eeg=True, exclude=channels_to_eliminate)
-    raw.rename_channels({'Fp1-A1': 'Fp1',
-                        'Fp2-A2': 'Fp2',
-                        'F3-A1':'F3',
-                        'F4-A2':'F4',
-                        'C3-A1':'C3',
-                        'C4-A2': 'C4',
-                        'P3-A1': 'P3',
-                        'P4-A2': 'P4',
-                        'O1-A1': 'O1',
-                        'O2-A2':'O2',
-                        'F7-A1':'F7',
-                        'F8-A2':'F8',
-                        'T3-A1':'T3',
-                        'T4-A2':'T4',
-                        'T5-A1':'T5',
-                        'T6-A2':'T6'})
-    raw.set_montage("standard_1020")
-    freq_bands = {'delta': (0.01,3),'alpha': (8, 12), 'SMR':(12,15),'beta': (15, 30), 'theta': (4, 8)}
-
-    # Extract and plot specific frequency bands
-    for band_name, (low, high) in freq_bands.items():
-        raw_band = raw.copy().filter(l_freq=low, h_freq=high, fir_design='firwin')
-        fig = raw_band.plot_psd(fmax=high + 5, show=False)
-        fig.suptitle(f'Power Spectral Density - {band_name} band')
-        plt.show()
-
-
-
 
 def ERP(data,label):
 
@@ -184,10 +151,10 @@ def label_taker(min_list:list,char_to_num=True):
     returned_list = []
     
     for min in min_list:
-        val = minutes(min)
+        val = _minutes(min)
         returned_list.extend(val)
         
-    key = ['이제', '우리', '잘', '하고', '그냥', '생각', '지금', '네', '사람', '진짜']
+    key = ['이제', '우리', '잘', '하고', '그냥', '생각', '지금', '네', '사람', '진짜']#random.seed(10)
     num_returned = []
     if char_to_num:
         for char in returned_list:
@@ -196,7 +163,7 @@ def label_taker(min_list:list,char_to_num=True):
         return num_returned
     return returned_list
 
-def minutes(num:int):
+def _minutes(num:int):
     if num == 15:
         return ['이제', '우리', '잘', '하고', '그냥', '생각', '지금', '네', '사람', '진짜',
               '지금', '우리', '생각', '네', '사람', '하고', '진짜', '이제', '잘', '그냥',
@@ -232,7 +199,7 @@ def minutes(num:int):
         
     
     print("ERROR on minutes!")
-    return False
+    raise Exception("ERROR!")
 
 
 class dataset(nn.Module):
@@ -275,21 +242,7 @@ def trainloop(model,optimizer,loss_fn,dLoader,EPOCH:int,modelLocation:str):
     torch.save(model, modelLocation)
 
 
-def evalloop(model_path,dLoader):
-    
-    
-    model = torch.load(model_path)
-    model.eval()
 
-    for i,(data,target) in enumerate(dLoader):
-        output = model(data)
-        print(f"Model output.shape: {output.shape}")
-        print(f"Model output: {output}")
-        print(f"target: {target}")
-
-        if i == 1:
-            break
-        
         
 def shape_check(x:Tensor):
     print(f"Shape of X: {x.shape}")
