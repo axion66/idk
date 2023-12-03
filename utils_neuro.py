@@ -235,7 +235,7 @@ def trainloop(model,optimizer,loss_fn,dLoader,EPOCH:int,modelLocation:str):
         print(f"Loss for {epoch + 1} epoch: {loss.item()}")
 
     plt.plot(losses)
-    plt.xlabel('Epoch')
+    plt.xlabel('batches')
     plt.ylabel('Loss')
     plt.title('Training Loss Curve')
     plt.show()
